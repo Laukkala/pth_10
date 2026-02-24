@@ -82,7 +82,7 @@ public class EventstatsStep extends AbstractEventstatsStep {
 
         if (byInstruction != null) {
             LOGGER.info("Performing BY-grouped aggregation");
-            Metadata metadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn",true).build();
+            Metadata metadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
             aggDs = dataset.groupBy(byInstruction).agg(mainAgg, seqOfAggs).withMetadata(byInstruction, metadata);
         }
         else {
