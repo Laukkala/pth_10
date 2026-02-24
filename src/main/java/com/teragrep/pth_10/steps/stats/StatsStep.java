@@ -81,7 +81,7 @@ public final class StatsStep extends AbstractStatsStep {
         if (!this.listOfGroupBys.isEmpty()) {
             Seq<Column> seqOfGroupBys = JavaConversions.asScalaBuffer(this.listOfGroupBys);
             Metadata metadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
-            Dataset resultDataset = dataset.groupBy(seqOfGroupBys).agg(mainExpr, seqOfAggs);
+            Dataset<Row> resultDataset = dataset.groupBy(seqOfGroupBys).agg(mainExpr, seqOfAggs);
             for (Column groupByColumn : listOfGroupBys) {
                 resultDataset = resultDataset.withMetadata(groupByColumn.toString(), metadata);
             }

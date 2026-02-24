@@ -79,7 +79,7 @@ public final class ChartStep extends AbstractStep {
         final Seq<Column> seqOfExpr = JavaConversions
                 .asScalaBuffer(listOfAggrExpressions.subList(1, listOfAggrExpressions.size()));
         final Seq<Column> seqOfGroupBy = JavaConversions.asScalaBuffer(groupByList);
-        Dataset resultDataset = dataset.groupBy(seqOfGroupBy).agg(mainExpr, seqOfExpr);
+        Dataset<Row> resultDataset = dataset.groupBy(seqOfGroupBy).agg(mainExpr, seqOfExpr);
         Metadata metadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
         for (Column groupByColumn : groupByList) {
             resultDataset = resultDataset.withMetadata(groupByColumn.toString(), metadata);
