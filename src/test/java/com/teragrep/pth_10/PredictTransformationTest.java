@@ -46,10 +46,7 @@
 package com.teragrep.pth_10;
 
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.MetadataBuilder;
-import org.apache.spark.sql.types.StructField;
-import org.apache.spark.sql.types.StructType;
+import org.apache.spark.sql.types.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.slf4j.Logger;
@@ -78,6 +75,9 @@ public class PredictTransformationTest {
 
     private StreamingTestUtil streamingTestUtil;
 
+    private final Metadata groupByMetadata = new MetadataBuilder()
+            .putBoolean("dpl_internal_isGroupByColumn", true)
+            .build();
     @BeforeAll
     void setEnv() {
         this.streamingTestUtil = new StreamingTestUtil(this.testSchema);
@@ -114,8 +114,8 @@ public class PredictTransformationTest {
                                     new StructField(
                                             "_time",
                                             DataTypes.TimestampType,
-                                            false,
-                                            new MetadataBuilder().build()
+                                            false, groupByMetadata
+
                                     ),
                                     new StructField("avgo", DataTypes.StringType, true, new MetadataBuilder().build()),
                                     new StructField("pred", DataTypes.DoubleType, true, new MetadataBuilder().build()),
@@ -161,7 +161,7 @@ public class PredictTransformationTest {
                                             "_time",
                                             DataTypes.TimestampType,
                                             false,
-                                            new MetadataBuilder().build()
+                                            groupByMetadata
                                     ),
                                     new StructField("avgo", DataTypes.StringType, true, new MetadataBuilder().build()),
                                     new StructField("pred", DataTypes.DoubleType, true, new MetadataBuilder().build()),
@@ -207,7 +207,7 @@ public class PredictTransformationTest {
                                             "_time",
                                             DataTypes.TimestampType,
                                             false,
-                                            new MetadataBuilder().build()
+                                            groupByMetadata
                                     ),
                                     new StructField("avgo", DataTypes.StringType, true, new MetadataBuilder().build()),
                                     new StructField("pred", DataTypes.DoubleType, true, new MetadataBuilder().build()),
