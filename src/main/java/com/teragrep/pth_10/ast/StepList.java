@@ -379,7 +379,7 @@ public class StepList implements VoidFunction2<Dataset<Row>, Long> {
             final long max = catVisitor.getCatalystContext().getDplMaximumLatest();
             final long step = catVisitor.getCatalystContext().getTimeChartSpanSeconds();
 
-            // copy metadata to spans as the original column gets dropped
+            // copy metadata to spans as the original column is replaced by spans
             Metadata timeMetadata = batchDF.schema().apply("_time").metadata();
             final Dataset<Row> rangeDs = catVisitor
                     .getCatalystContext()
@@ -394,6 +394,7 @@ public class StepList implements VoidFunction2<Dataset<Row>, Long> {
                     .withColumnRenamed("_range", "_time")
                     .orderBy("_time");
             // fill null data with "0" for all types, except for the "_time" column
+            // filling clears metadata, so we copy it to each filled field.
             for (final StructField field : batchDF.schema().fields()) {
                 final String name = field.name();
                 final DataType dataType = field.dataType();

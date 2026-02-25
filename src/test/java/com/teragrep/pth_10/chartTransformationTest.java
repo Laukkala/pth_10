@@ -46,7 +46,11 @@
 package com.teragrep.pth_10;
 
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.types.*;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.MetadataBuilder;
+import org.apache.spark.sql.types.Metadata;
+import org.apache.spark.sql.types.StructField;
+import org.apache.spark.sql.types.StructType;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.slf4j.Logger;
@@ -66,7 +70,6 @@ public class chartTransformationTest {
     String testFile = "src/test/resources/xmlWalkerTestDataStreaming/xmlWalkerTestDataStreaming*";
     StreamingTestUtil streamingTestUtil;
     Metadata groupByMetadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
-    Metadata emptyMetadata = new MetadataBuilder().build();
 
     @BeforeAll
     void setEnv() {
@@ -90,7 +93,7 @@ public class chartTransformationTest {
 
         this.streamingTestUtil.performDPLTest(query, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
-                    new StructField("count", DataTypes.LongType, true, emptyMetadata)
+                    new StructField("count", DataTypes.LongType, true, new MetadataBuilder().build())
             });
             Assertions.assertEquals(expectedSchema, res.schema()); // check that the schema is correct
 
@@ -117,7 +120,7 @@ public class chartTransformationTest {
         this.streamingTestUtil.performDPLTest(q, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
                     new StructField("offset", DataTypes.LongType, true, groupByMetadata),
-                    new StructField("count", DataTypes.LongType, true, emptyMetadata)
+                    new StructField("count", DataTypes.LongType, true, new MetadataBuilder().build())
             });
 
             Assertions.assertEquals(expectedSchema, res.schema()); // At least schema is correct
@@ -153,7 +156,7 @@ public class chartTransformationTest {
 
             final StructType expectedSchema = new StructType(new StructField[] {
                     new StructField("offset", DataTypes.LongType, true, groupByMetadata),
-                    new StructField("count", DataTypes.LongType, true, emptyMetadata)
+                    new StructField("count", DataTypes.LongType, true, new MetadataBuilder().build())
             });
 
             Assertions.assertEquals(expectedSchema, res.schema()); // At least schema is correct
@@ -187,7 +190,7 @@ public class chartTransformationTest {
 
         this.streamingTestUtil.performDPLTest(q, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
-                    new StructField("count(_raw)", DataTypes.LongType, true, emptyMetadata)
+                    new StructField("count(_raw)", DataTypes.LongType, true, new MetadataBuilder().build())
             });
 
             Assertions.assertEquals(expectedSchema, res.schema()); // At least schema is correct
@@ -222,9 +225,9 @@ public class chartTransformationTest {
         this.streamingTestUtil.performDPLTest(q, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
                     new StructField("index", DataTypes.StringType, true, groupByMetadata),
-                    new StructField("count(_raw)", DataTypes.LongType, true, emptyMetadata),
-                    new StructField("min(offset)", DataTypes.StringType, true, emptyMetadata),
-                    new StructField("max(offset)", DataTypes.StringType, true, emptyMetadata)
+                    new StructField("count(_raw)", DataTypes.LongType, true, new MetadataBuilder().build()),
+                    new StructField("min(offset)", DataTypes.StringType, true, new MetadataBuilder().build()),
+                    new StructField("max(offset)", DataTypes.StringType, true, new MetadataBuilder().build())
             });
 
             Assertions.assertEquals(expectedSchema, res.schema());
@@ -278,7 +281,7 @@ public class chartTransformationTest {
         this.streamingTestUtil.performDPLTest(q, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
                     new StructField("_time", DataTypes.StringType, true, groupByMetadata),
-                    new StructField("avg(offset)", DataTypes.DoubleType, true, emptyMetadata),
+                    new StructField("avg(offset)", DataTypes.DoubleType, true, new MetadataBuilder().build()),
             });
 
             Assertions.assertEquals(expectedSchema, res.schema());
@@ -319,7 +322,7 @@ public class chartTransformationTest {
         this.streamingTestUtil.performDPLTest(q, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
                     new StructField("sourcetype", DataTypes.StringType, true, groupByMetadata),
-                    new StructField("avg(offset)", DataTypes.DoubleType, true, emptyMetadata),
+                    new StructField("avg(offset)", DataTypes.DoubleType, true, new MetadataBuilder().build()),
             });
 
             Assertions.assertEquals(expectedSchema, res.schema());
@@ -352,7 +355,7 @@ public class chartTransformationTest {
         this.streamingTestUtil.performDPLTest(q, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
                     new StructField("offset", DataTypes.LongType, true, groupByMetadata),
-                    new StructField("count(offset)", DataTypes.LongType, true, emptyMetadata),
+                    new StructField("count(offset)", DataTypes.LongType, true, new MetadataBuilder().build()),
             });
 
             Assertions.assertEquals(expectedSchema, res.schema());
@@ -384,7 +387,7 @@ public class chartTransformationTest {
         this.streamingTestUtil.performDPLTest(q, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
                     new StructField("a", DataTypes.StringType, true, groupByMetadata),
-                    new StructField("count(offset)", DataTypes.LongType, true, emptyMetadata),
+                    new StructField("count(offset)", DataTypes.LongType, true, new MetadataBuilder().build()),
             });
 
             Assertions.assertEquals(expectedSchema, res.schema());
@@ -411,7 +414,7 @@ public class chartTransformationTest {
 
         this.streamingTestUtil.performDPLTest(query, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
-                    new StructField("count", DataTypes.LongType, true, emptyMetadata)
+                    new StructField("count", DataTypes.LongType, true, new MetadataBuilder().build())
             });
             Assertions.assertEquals(expectedSchema, res.schema()); // check that the schema is correct
 
@@ -433,7 +436,7 @@ public class chartTransformationTest {
 
         this.streamingTestUtil.performDPLTest(query, this.testFile, res -> {
             final StructType expectedSchema = new StructType(new StructField[] {
-                    new StructField("count", DataTypes.LongType, true, emptyMetadata)
+                    new StructField("count", DataTypes.LongType, true, new MetadataBuilder().build())
             });
             Assertions.assertEquals(expectedSchema, res.schema()); // check that the schema is correct
 
