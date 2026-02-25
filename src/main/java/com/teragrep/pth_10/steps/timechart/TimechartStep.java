@@ -52,6 +52,7 @@ import scala.collection.JavaConversions;
 import scala.collection.Seq;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,7 +93,7 @@ public final class TimechartStep extends AbstractTimechartStep {
                 .orderBy("_time");
 
         Metadata metadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
-        if (resultDataset.schema().contains("_time")) {
+        if (Arrays.asList(resultDataset.schema().fieldNames()).contains("_time")) {
             resultDataset = resultDataset.withMetadata("_time", metadata);
         }
         if (divByInsts != null) {
