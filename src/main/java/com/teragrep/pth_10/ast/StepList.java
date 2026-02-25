@@ -380,13 +380,13 @@ public class StepList implements VoidFunction2<Dataset<Row>, Long> {
             final long step = catVisitor.getCatalystContext().getTimeChartSpanSeconds();
 
             // copy metadata to spans as the original column gets dropped
-            Metadata metadata = batchDF.schema().apply("_time").metadata();
+            Metadata timeMetadata = batchDF.schema().apply("_time").metadata();
             final Dataset<Row> rangeDs = catVisitor
                     .getCatalystContext()
                     .getSparkSession()
                     .range((min / step) * step, ((max / step) + 1) * step, step)
                     .select(functions.col("id").cast("timestamp").alias("_range"))
-                    .withMetadata("_range", metadata);
+                    .withMetadata("_range", timeMetadata);
             // left join span to data & continue
             batchDF = rangeDs
                     .join(batchDF, rangeDs.col("_range").equalTo(batchDF.col("_time")), "left")
@@ -397,31 +397,32 @@ public class StepList implements VoidFunction2<Dataset<Row>, Long> {
             for (final StructField field : batchDF.schema().fields()) {
                 final String name = field.name();
                 final DataType dataType = field.dataType();
+                final Metadata metadata = field.metadata();
 
                 if (dataType == DataTypes.StringType) {
                     batchDF = batchDF.na().fill("0", new String[] {
                             name
-                    });
+                    }).withMetadata(name, metadata);
                 }
                 else if (dataType == DataTypes.IntegerType) {
                     batchDF = batchDF.na().fill(0, new String[] {
                             name
-                    });
+                    }).withMetadata(name, metadata);
                 }
                 else if (dataType == DataTypes.LongType) {
                     batchDF = batchDF.na().fill(0L, new String[] {
                             name
-                    });
+                    }).withMetadata(name, metadata);
                 }
                 else if (dataType == DataTypes.DoubleType) {
                     batchDF = batchDF.na().fill(0d, new String[] {
                             name
-                    });
+                    }).withMetadata(name, metadata);
                 }
                 else if (dataType == DataTypes.FloatType) {
                     batchDF = batchDF.na().fill(0f, new String[] {
                             name
-                    });
+                    }).withMetadata(name, metadata);
                 }
                 // skip TimestampType
             }

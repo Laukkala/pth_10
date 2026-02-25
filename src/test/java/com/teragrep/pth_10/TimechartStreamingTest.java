@@ -118,12 +118,7 @@ public class TimechartStreamingTest {
                         testFile, ds -> {
                             final StructType expectedSchema = new StructType(new StructField[] {
                                     new StructField("_time", DataTypes.TimestampType, false, groupByMetadata),
-                                    new StructField(
-                                            "sourcetype",
-                                            DataTypes.StringType,
-                                            false,
-                                            new MetadataBuilder().build()
-                                    ),
+                                    new StructField("sourcetype", DataTypes.StringType, false, groupByMetadata),
                                     new StructField("craw", DataTypes.LongType, false, new MetadataBuilder().build())
                             });
                             Assertions
@@ -152,12 +147,7 @@ public class TimechartStreamingTest {
                         testFile, ds -> {
                             final StructType expectedSchema = new StructType(new StructField[] {
                                     new StructField("_time", DataTypes.TimestampType, false, groupByMetadata),
-                                    new StructField(
-                                            "sourcetype",
-                                            DataTypes.StringType,
-                                            false,
-                                            new MetadataBuilder().build()
-                                    ),
+                                    new StructField("sourcetype", DataTypes.StringType, false, groupByMetadata),
                                     new StructField("craw", DataTypes.LongType, false, new MetadataBuilder().build())
                             });
                             Assertions
@@ -185,12 +175,7 @@ public class TimechartStreamingTest {
                         "index=index_A | timechart span=1min count(_raw) as craw by sourcetype", testFile, ds -> {
                             final StructType expectedSchema = new StructType(new StructField[] {
                                     new StructField("_time", DataTypes.TimestampType, false, groupByMetadata),
-                                    new StructField(
-                                            "sourcetype",
-                                            DataTypes.StringType,
-                                            false,
-                                            new MetadataBuilder().build()
-                                    ),
+                                    new StructField("sourcetype", DataTypes.StringType, false, groupByMetadata),
                                     new StructField("craw", DataTypes.LongType, false, new MetadataBuilder().build())
                             });
                             Assertions
@@ -227,7 +212,7 @@ public class TimechartStreamingTest {
         streamingTestUtil.performDPLTest("index=index_A | timechart count by host", testFile, ds -> {
             final StructType expectedSchema = new StructType(new StructField[] {
                     new StructField("_time", DataTypes.TimestampType, false, groupByMetadata),
-                    new StructField("host", DataTypes.StringType, false, new MetadataBuilder().build()),
+                    new StructField("host", DataTypes.StringType, false, groupByMetadata),
                     new StructField("count", DataTypes.LongType, false, new MetadataBuilder().build())
             });
             Assertions
