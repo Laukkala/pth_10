@@ -78,6 +78,7 @@ public class PredictTransformationTest {
     private final Metadata groupByMetadata = new MetadataBuilder()
             .putBoolean("dpl_internal_isGroupByColumn", true)
             .build();
+
     @BeforeAll
     void setEnv() {
         this.streamingTestUtil = new StreamingTestUtil(this.testSchema);
@@ -114,7 +115,8 @@ public class PredictTransformationTest {
                                     new StructField(
                                             "_time",
                                             DataTypes.TimestampType,
-                                            false, groupByMetadata
+                                            false,
+                                            groupByMetadata
 
                                     ),
                                     new StructField("avgo", DataTypes.StringType, true, new MetadataBuilder().build()),
@@ -157,12 +159,7 @@ public class PredictTransformationTest {
                         "index=* | timechart span=1h avg(offset) as avgo | predict avgo AS pred future_timespan=10",
                         testFile, ds -> {
                             final StructType expectedSchema = new StructType(new StructField[] {
-                                    new StructField(
-                                            "_time",
-                                            DataTypes.TimestampType,
-                                            false,
-                                            groupByMetadata
-                                    ),
+                                    new StructField("_time", DataTypes.TimestampType, false, groupByMetadata),
                                     new StructField("avgo", DataTypes.StringType, true, new MetadataBuilder().build()),
                                     new StructField("pred", DataTypes.DoubleType, true, new MetadataBuilder().build()),
                                     new StructField(
@@ -203,12 +200,7 @@ public class PredictTransformationTest {
                         "index=* | timechart span=1h avg(offset) as avgo | predict avgo AS pred algorithm=LLT future_timespan=10 ",
                         testFile, ds -> {
                             final StructType expectedSchema = new StructType(new StructField[] {
-                                    new StructField(
-                                            "_time",
-                                            DataTypes.TimestampType,
-                                            false,
-                                            groupByMetadata
-                                    ),
+                                    new StructField("_time", DataTypes.TimestampType, false, groupByMetadata),
                                     new StructField("avgo", DataTypes.StringType, true, new MetadataBuilder().build()),
                                     new StructField("pred", DataTypes.DoubleType, true, new MetadataBuilder().build()),
                                     new StructField(
