@@ -82,8 +82,7 @@ public class EventstatsStep extends AbstractEventstatsStep {
 
         if (byInstruction != null) {
             LOGGER.info("Performing BY-grouped aggregation");
-            Metadata metadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
-            aggDs = dataset.groupBy(byInstruction).agg(mainAgg, seqOfAggs).withMetadata(byInstruction, metadata);
+            aggDs = dataset.groupBy(byInstruction).agg(mainAgg, seqOfAggs);
         }
         else {
             LOGGER.info("Performing direct aggregation");
@@ -139,7 +138,8 @@ public class EventstatsStep extends AbstractEventstatsStep {
         assert savedDs != null : "Dataset read from file sink was null";
 
         if (byInstruction != null) {
-            resultDs = savedDs.join(aggDs, byInstruction);
+            Metadata metadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
+            resultDs = savedDs.join(aggDs, byInstruction).withMetadata(byInstruction, metadata);
         }
         else {
             resultDs = savedDs.crossJoin(aggDs);
