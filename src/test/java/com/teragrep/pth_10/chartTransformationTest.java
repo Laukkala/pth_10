@@ -69,7 +69,7 @@ public class chartTransformationTest {
 
     String testFile = "src/test/resources/xmlWalkerTestDataStreaming/xmlWalkerTestDataStreaming*";
     StreamingTestUtil streamingTestUtil;
-    Metadata groupByMetadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
+    final Metadata groupByMetadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
 
     @BeforeAll
     void setEnv() {

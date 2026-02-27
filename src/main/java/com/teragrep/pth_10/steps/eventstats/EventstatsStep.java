@@ -138,7 +138,7 @@ public class EventstatsStep extends AbstractEventstatsStep {
         assert savedDs != null : "Dataset read from file sink was null";
 
         if (byInstruction != null) {
-            Metadata metadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
+            final Metadata metadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
             resultDs = savedDs.join(aggDs, byInstruction).withMetadata(byInstruction, metadata);
         }
         else {

@@ -380,7 +380,7 @@ public class StepList implements VoidFunction2<Dataset<Row>, Long> {
             final long step = catVisitor.getCatalystContext().getTimeChartSpanSeconds();
 
             // copy metadata to spans as the original column is replaced by spans
-            Metadata timeMetadata = batchDF.schema().apply("_time").metadata();
+            final Metadata timeMetadata = batchDF.schema().apply("_time").metadata();
             final Dataset<Row> rangeDs = catVisitor
                     .getCatalystContext()
                     .getSparkSession()

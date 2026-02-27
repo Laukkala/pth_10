@@ -79,7 +79,9 @@ public class statsTransformationStreamingTest {
     });
 
     private StreamingTestUtil streamingTestUtil;
-    private Metadata groupByMetadata = new MetadataBuilder().putBoolean("dpl_internal_isGroupByColumn", true).build();
+    private final Metadata groupByMetadata = new MetadataBuilder()
+            .putBoolean("dpl_internal_isGroupByColumn", true)
+            .build();
 
     @BeforeAll
     void setEnv() {
